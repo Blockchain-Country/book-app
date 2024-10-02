@@ -24,9 +24,19 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: Install dependencies in frontend
         run: |
           pnpm install --no-frozen-lockfile
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+            frontend/node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm
 
   build:
     name: Build App
@@ -41,8 +51,21 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Restore cached node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+            frontend/node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm
+
       - name: Install pnpm
         run: npm install -g pnpm
+
+      - name: Install dependencies (if cache is missing)
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build the app
         run: pnpm run build
