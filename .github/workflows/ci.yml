@@ -31,6 +31,9 @@ jobs:
         working-directory: .
         run: pnpm install --no-frozen-lockfile
 
+      - name: List directories2
+        run: ls -la
+
       - name: Build the app
         working-directory: frontend
         run: pnpm run build
