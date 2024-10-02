@@ -31,13 +31,23 @@ jobs:
         working-directory: .
         run: pnpm install --no-frozen-lockfile
 
+      - name: Build the app
+        working-directory: frontend
+        run: pnpm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=3584
+
   build:
     name: Build App
     runs-on: ubuntu-latest
     needs: init
     steps:
-      - name: List directories
+      - name: List directories before build
         run: ls -la
+        working-directory: ..
+
+      - name: List frontend directory contents
+        run: ls -la ../frontend
 
       - name: Build the app
         working-directory: ../frontend
