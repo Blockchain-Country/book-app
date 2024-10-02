@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: List directories
+        run: ls -la
+
       - name: Install pnpm
         run: npm install -g pnpm
 
@@ -33,8 +36,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: init
     steps:
+      - name: List directories
+        run: ls -la
+
       - name: Build the app
-        working-directory: frontend
+        working-directory: frontend # Adjust if needed
         run: pnpm run build
         env:
           NODE_OPTIONS: --max-old-space-size=3584
