@@ -40,7 +40,7 @@ jobs:
         run: ls -la
 
       - name: Build the app
-        working-directory: frontend # Adjust if needed
+        working-directory: ./frontend
         run: pnpm run build
         env:
           NODE_OPTIONS: --max-old-space-size=3584
