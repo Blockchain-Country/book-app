@@ -24,50 +24,17 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies in frontend
-        run: |
-          pnpm install --no-frozen-lockfile
-
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            frontend/node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm
+      - name: Install dependencies
+        working-directory: frontend
+        run: pnpm install --no-frozen-lockfile
 
   build:
     name: Build App
     runs-on: ubuntu-latest
     needs: init
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-
-      - name: Restore cached node_modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            frontend/node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies (if cache is missing)
-        run: pnpm install --no-frozen-lockfile
-
       - name: Build the app
+        working-directory: frontend
         run: pnpm run build
         env:
           NODE_OPTIONS: --max-old-space-size=3584
