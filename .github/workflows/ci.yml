@@ -29,9 +29,6 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: List root directory
-        run: ls -la
-
       - name: Install pnpm
         run: npm install -g pnpm
 
@@ -65,8 +62,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: List root directory before build
-        run: ls -la
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: List frontend directory contents
         run: ls -la
