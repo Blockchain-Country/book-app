@@ -16,6 +16,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # - name: Cache node_modules
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: frontend/node_modules
+      #     key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -28,21 +36,9 @@ jobs:
         working-directory: frontend
         run: pnpm install --no-frozen-lockfile
 
-      - name: List frontend directory
-        run: ls -la
-        working-directory: frontend
-
-      - name: Build the app
-        working-directory: frontend
-        run: pnpm run build
-        env:
-          NODE_OPTIONS: --max-old-space-size=3584
-
-      - name: Upload node_modules
-        uses: actions/upload-artifact@v3
-        with:
-          name: frontend-node-modules
-          path: frontend/node_modules
+      # - name: List frontend directory
+      #   run: ls -la
+      #   working-directory: frontend
 
   build:
     name: Build App
@@ -52,18 +48,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download node_modules
-        uses: actions/download-artifact@v3
+      # - name: Restore node_modules from cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: frontend/node_modules
+      #     key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          name: frontend-node-modules
-          path: frontend/node_modules
+          node-version: '18.x'
 
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: List frontend directory contents
-        run: ls -la
-        working-directory: frontend
+      # - name: List frontend directory contents
+      #   run: ls -la
+      #   working-directory: frontend
 
       - name: Build the app
         working-directory: frontend
