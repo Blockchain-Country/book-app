@@ -28,17 +28,11 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        working-directory: .
+        working-directory: ./frontend
         run: pnpm install --no-frozen-lockfile
 
-      - name: List directories2
-        run: ls -la
-
-      - name: Build the app
-        working-directory: frontend
-        run: pnpm run build
-        env:
-          NODE_OPTIONS: --max-old-space-size=3584
+      - name: List directories in frontend
+        run: ls -la ./frontend
 
   build:
     name: Build App
@@ -47,13 +41,10 @@ jobs:
     steps:
       - name: List directories before build
         run: ls -la
-        working-directory: ..
-
-      - name: List frontend directory contents
-        run: ls -la ../frontend
+        working-directory: ./frontend
 
       - name: Build the app
-        working-directory: ../frontend
+        working-directory: ./frontend
         run: pnpm run build
         env:
           NODE_OPTIONS: --max-old-space-size=3584
