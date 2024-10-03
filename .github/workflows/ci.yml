@@ -21,30 +21,40 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: List directories
+      - name: List root directory
         run: ls -la
 
       - name: Install pnpm
         run: npm install -g pnpm
 
       - name: Install dependencies
-        working-directory: ./frontend
+        working-directory: frontend
         run: pnpm install --no-frozen-lockfile
 
-      - name: List directories in frontend
-        run: ls -la ./frontend
+      - name: List frontend directory
+        run: ls -la
+        working-directory: frontend
+
+      - name: Build the app
+        working-directory: frontend
+        run: pnpm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=3584
 
   build:
     name: Build App
     runs-on: ubuntu-latest
     needs: init
     steps:
-      - name: List directories before build
+      - name: List root directory before build
         run: ls -la
-        working-directory: ./frontend
+
+      - name: List frontend directory contents
+        run: ls -la
+        working-directory: frontend
 
       - name: Build the app
-        working-directory: ./frontend
+        working-directory: frontend
         run: pnpm run build
         env:
           NODE_OPTIONS: --max-old-space-size=3584
