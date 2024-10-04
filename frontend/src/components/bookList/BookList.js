@@ -8,7 +8,7 @@ const BookList = () => {
   const dispatch = useDispatch()
 
   const handleDeleteBook = (id) => {
-    books.map((book) => {
+    books.forEach((book) => {
       if (book.id === id && book.isFavorite === false) {
         dispatch(deleteBook(id))
       }
