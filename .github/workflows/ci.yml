@@ -53,10 +53,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # - name: List frontend directory contents
-      #   run: ls -la
-      #   working-directory: frontend
-
       - name: Build the app
         working-directory: frontend
         run: npm run build
@@ -78,10 +74,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
-      # - name: Install dependencies
-      #   working-directory: frontend
-      #   run: npm install
 
       - name: Run tests
         working-directory: frontend

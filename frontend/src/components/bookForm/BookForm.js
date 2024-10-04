@@ -18,6 +18,7 @@ const BookForm = () => {
           title,
           author,
           id: uuidv4(),
+          isFavorite: false,
         })
       )
       setTitle('')
@@ -32,6 +33,7 @@ const BookForm = () => {
       addBook({
         ...randomBook,
         id: uuidv4(),
+        isFavorite: false,
       })
     )
   }
