@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteBook } from '../../redux/books/ActionCreators.js'
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
+import { deleteBook, toggleFavorite } from '../../redux/books/ActionCreators.js'
 import './BookList.css'
 
 const BookList = () => {
@@ -7,7 +8,15 @@ const BookList = () => {
   const dispatch = useDispatch()
 
   const handleDeleteBook = (id) => {
-    dispatch(deleteBook(id))
+    books.forEach((book) => {
+      if (book.id === id && book.isFavorite === false) {
+        dispatch(deleteBook(id))
+      }
+    })
+  }
+
+  const handleFavorite = (id) => {
+    dispatch(toggleFavorite(id))
   }
 
   return (
@@ -23,6 +32,13 @@ const BookList = () => {
                 {i + 1}. {book.title} by {book.author}
               </div>
               <div className="book-actions">
+                <span onClick={() => handleFavorite(book.id)}>
+                  {!book.isFavorite ? (
+                    <AiOutlineStar className="star-icon" />
+                  ) : (
+                    <AiFillStar className="star-icon" />
+                  )}
+                </span>
                 <button onClick={() => handleDeleteBook(book.id)}>
                   Delete
                 </button>
