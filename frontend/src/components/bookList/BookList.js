@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { DELETE_BOOK, TOGGLE_FAVORITE } from '../../redux/slices/BooksSlice.js'
+import { selectBook } from '../../redux/slices/BooksSlice.js'
 import './BookList.css'
 
 const BookList = () => {
-  const books = useSelector((state) => state.booksList)
+  const books = useSelector(selectBook)
   const dispatch = useDispatch()
 
   const handleDeleteBook = (id) => {
