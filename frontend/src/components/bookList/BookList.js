@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
-import { deleteBook, toggleFavorite } from '../../redux/books/ActionCreators.js'
+import { DELETE_BOOK, TOGGLE_FAVORITE } from '../../redux/slices/BooksSlice.js'
 import './BookList.css'
 
 const BookList = () => {
@@ -10,13 +10,13 @@ const BookList = () => {
   const handleDeleteBook = (id) => {
     books.forEach((book) => {
       if (book.id === id && book.isFavorite === false) {
-        dispatch(deleteBook(id))
+        dispatch(DELETE_BOOK(id))
       }
     })
   }
 
   const handleFavorite = (id) => {
-    dispatch(toggleFavorite(id))
+    dispatch(TOGGLE_FAVORITE(id))
   }
 
   return (
