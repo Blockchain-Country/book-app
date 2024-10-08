@@ -10,7 +10,7 @@ const booksSlice = createSlice({
       state.push(action.payload)
     },
     DELETE_BOOK: (state, action) => {
-      return state.filter((book) => book.id === action.payload)
+      return state.filter((book) => book.id !== action.payload)
     },
     TOGGLE_FAVORITE: (state, action) => {
       state.forEach((book) => {
@@ -23,5 +23,7 @@ const booksSlice = createSlice({
 })
 
 export const { ADD_BOOK, DELETE_BOOK, TOGGLE_FAVORITE } = booksSlice.actions
+
+export const selectBook = (state) => state.booksList
 
 export default booksSlice.reducer
