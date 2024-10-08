@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import BookList from './BookList.js'
-import { deleteBook } from '../../redux/books/ActionCreators.js'
+import { DELETE_BOOK } from '../../redux/slices/BooksSlice.js'
 
 // Mock Redux store
 const mockStore = configureStore([])
