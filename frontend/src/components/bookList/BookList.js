@@ -2,13 +2,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { DELETE_BOOK, TOGGLE_FAVORITE } from '../../redux/slices/BooksSlice.js'
 import { selectBook } from '../../redux/slices/BooksSlice.js'
-import { selectTitleFilter } from '../../redux/slices/FiltersSlice.js'
+import {
+  selectTitleFilter,
+  selectAuthorFilter,
+  selectOnlyFavoriteFilter,
+} from '../../redux/slices/FiltersSlice.js'
 import './BookList.css'
 
 const BookList = () => {
   const dispatch = useDispatch()
   const books = useSelector(selectBook)
   const titleFilter = useSelector(selectTitleFilter)
+  const authorFilter = useSelector(selectAuthorFilter)
+  const onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter)
 
   const handleDeleteBook = (id) => {
     books.forEach((book) => {
@@ -23,7 +29,12 @@ const BookList = () => {
   }
 
   const filteredBooks = books.filter((book) => {
-    return book.title.toLowerCase().includes(titleFilter.toLowerCase())
+    const matchesFavorite = onlyFavoriteFilter ? book.isFavorite : true
+    return (
+      book.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+      book.author.toLowerCase().includes(authorFilter.toLowerCase()) &&
+      matchesFavorite
+    )
   })
 
   return (
@@ -36,7 +47,7 @@ const BookList = () => {
           {filteredBooks.map((book, i) => (
             <li key={book.id}>
               <div className="book-info" id={book.id}>
-                {i + 1}. {book.title} by {book.author}
+                {i + 1}. {book.title} by <strong>{book.author}</strong>
               </div>
               <div className="book-actions">
                 <span onClick={() => handleFavorite(book.id)}>
