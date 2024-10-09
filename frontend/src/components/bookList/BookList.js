@@ -2,11 +2,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { DELETE_BOOK, TOGGLE_FAVORITE } from '../../redux/slices/BooksSlice.js'
 import { selectBook } from '../../redux/slices/BooksSlice.js'
+import { selectTitleFilter } from '../../redux/slices/FiltersSlice.js'
 import './BookList.css'
 
 const BookList = () => {
-  const books = useSelector(selectBook)
   const dispatch = useDispatch()
+  const books = useSelector(selectBook)
+  const titleFilter = useSelector(selectTitleFilter)
 
   const handleDeleteBook = (id) => {
     books.forEach((book) => {
@@ -20,14 +22,18 @@ const BookList = () => {
     dispatch(TOGGLE_FAVORITE(id))
   }
 
+  const filteredBooks = books.filter((book) => {
+    return book.title.toLowerCase().includes(titleFilter.toLowerCase())
+  })
+
   return (
     <div className="app-block book-list">
       <h2>Book List</h2>
-      {books.length === 0 ? (
+      {!books.length ? (
         <p>No books available</p>
       ) : (
         <ul>
-          {books.map((book, i) => (
+          {filteredBooks.map((book, i) => (
             <li key={book.id}>
               <div className="book-info" id={book.id}>
                 {i + 1}. {book.title} by {book.author}
