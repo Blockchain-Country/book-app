@@ -8,13 +8,16 @@ import './BookForm.css'
 const BookForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
+  const [year, setYear] = useState('')
   const dispath = useDispatch()
 
   const handleSubmit = (e) => {
+    const yearRegex = /^\d{4}$/
     e.preventDefault()
-    if (title && author) {
-      dispath(ADD_BOOK(createBook({ title, author })))
+    if (title && yearRegex.test(year) && author) {
+      dispath(ADD_BOOK(createBook({ title, year, author })))
       setTitle('')
+      setYear('')
       setAuthor('')
     }
   }
@@ -30,13 +33,22 @@ const BookForm = () => {
       <h2>Add a New Book</h2>
       <form className="book-form" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="title">Title: </label>
+          <label htmlFor="title">Title:</label>
           <input
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+        </div>
+        <div>
+          <label htmlFor="year">Year:</label>
+          <input
+            type="number"
+            id="year"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+          ></input>
         </div>
         <div>
           <label htmlFor="author">Author: </label>

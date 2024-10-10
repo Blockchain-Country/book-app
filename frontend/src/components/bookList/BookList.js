@@ -47,7 +47,16 @@ const BookList = () => {
           {filteredBooks.map((book, i) => (
             <li key={book.id}>
               <div className="book-info" id={book.id}>
-                {i + 1}. {book.title} by <strong>{book.author}</strong>
+                <span>
+                  {i + 1}
+                  {'. '}
+                </span>
+                <span>{book.title} </span>
+                <span>{`(${book.year})`}</span>
+                <span>
+                  {' '}
+                  by <strong>{book.author}</strong>
+                </span>
               </div>
               <div className="book-actions">
                 <span onClick={() => handleFavorite(book.id)}>
