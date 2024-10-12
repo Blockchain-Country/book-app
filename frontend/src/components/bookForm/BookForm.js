@@ -1,31 +1,40 @@
+import axios from 'axios'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { ADD_BOOK } from '../../redux/slices/BooksSlice.js'
 import createBook from '../../utils/CreateBook.js'
-import booksList from '../../data/books.json'
+import { ADD_BOOK } from '../../redux/slices/BooksSlice.js'
+import getGoogleBookViaApi from '../../data/getGoogleBookViaApi.js'
 import './BookForm.css'
 
 const BookForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [year, setYear] = useState('')
-  const dispath = useDispatch()
+  const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     const yearRegex = /^\d{4}$/
     e.preventDefault()
     if (title && yearRegex.test(year) && author) {
-      dispath(ADD_BOOK(createBook({ title, year, author })))
+      dispatch(ADD_BOOK(createBook({ title, year, author })))
       setTitle('')
       setYear('')
       setAuthor('')
     }
   }
 
-  const handleRandomBook = () => {
-    const randomNum = Math.floor(Math.random() * booksList.length)
-    const randomBook = booksList[randomNum]
-    return dispath(ADD_BOOK(createBook(randomBook)))
+  const handleRandomBookViaAPI = async () => {
+    const res = await axios.get('http://localhost:4000/random-book')
+    console.log(res.data)
+    return dispatch(ADD_BOOK(createBook(res.data)))
+  }
+
+  const handleRandomBookFromGoogle = async () => {
+    const { title, year, author, description, image } =
+      await getGoogleBookViaApi()
+    return dispatch(
+      ADD_BOOK(createBook({ title, year, author, description, image }))
+    )
   }
 
   return (
@@ -60,8 +69,11 @@ const BookForm = () => {
           />
         </div>
         <button type="submit">Add Book</button>
-        <button type="button" onClick={handleRandomBook}>
-          Add Random
+        <button type="button" onClick={handleRandomBookViaAPI}>
+          Add Random API
+        </button>
+        <button type="button" onClick={handleRandomBookFromGoogle}>
+          Add Random Google
         </button>
       </form>
     </div>

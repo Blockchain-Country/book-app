@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { DELETE_BOOK, TOGGLE_FAVORITE } from '../../redux/slices/BooksSlice.js'
 import { selectBook } from '../../redux/slices/BooksSlice.js'
+import BookDescriptionModal from '../modals/BookDescriptionModal.js'
 import {
   selectTitleFilter,
   selectAuthorFilter,
@@ -11,10 +13,15 @@ import './BookList.css'
 
 const BookList = () => {
   const dispatch = useDispatch()
+
   const books = useSelector(selectBook)
+
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
   const onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter)
+
+  const [selectedBook, setSelectedBook] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleDeleteBook = (id) => {
     books.forEach((book) => {
@@ -28,30 +35,65 @@ const BookList = () => {
     dispatch(TOGGLE_FAVORITE(id))
   }
 
+  const handleOpenModal = (book) => {
+    setSelectedBook(book)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedBook(null)
+  }
+
   const filteredBooks = books.filter((book) => {
     const matchesFavorite = onlyFavoriteFilter ? book.isFavorite : true
-    return (
-      book.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
-      book.author.toLowerCase().includes(authorFilter.toLowerCase()) &&
-      matchesFavorite
-    )
+
+    if (book.title && book.year && book.author) {
+      return (
+        book.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+        book.author.toLowerCase().includes(authorFilter.toLowerCase()) &&
+        matchesFavorite
+      )
+    }
+    return false
   })
+
+  const highlightMatched = (text, filter) => {
+    if (!filter) return text
+
+    const regex = new RegExp(`(${filter})`, 'gi')
+    return text.split(regex).map((substring, i) => {
+      if (substring.toLowerCase() === filter.toLowerCase()) {
+        return (
+          <span key={i} className="highlight">
+            {substring}
+          </span>
+        )
+      }
+      return substring
+    })
+  }
 
   return (
     <div className="app-block book-list">
-      <h2>Book List</h2>
+      <h2>My Book List</h2>
       {!books.length ? (
         <p>No books available</p>
       ) : (
         <ul>
           {filteredBooks.map((book, i) => (
             <li key={book.id}>
-              <div className="book-info" id={book.id}>
+              <div
+                className="book-info"
+                id={book.id}
+                onClick={() => handleOpenModal(book)}
+                style={{ cursor: 'pointer' }}
+              >
                 <span>
                   {i + 1}
                   {'. '}
                 </span>
-                <span>{book.title} </span>
+                <span>{highlightMatched(book.title, titleFilter)} </span>
                 <span>{`(${book.year})`}</span>
                 <span>
                   {' '}
@@ -74,6 +116,12 @@ const BookList = () => {
           ))}
         </ul>
       )}
+      {/* Modal Component */}
+      <BookDescriptionModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        book={selectedBook}
+      />
     </div>
   )
 }
