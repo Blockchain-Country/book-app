@@ -1,9 +1,11 @@
-import axios from 'axios'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import createBook from '../../utils/CreateBook.js'
-import { ADD_BOOK } from '../../redux/slices/BooksSlice.js'
-import getGoogleBookViaApi from '../../data/getGoogleBookViaApi.js'
+import {
+  ADD_BOOK,
+  fetchBookApi,
+  fetchBookGoogle,
+} from '../../redux/slices/BooksSlice.js'
 import './BookForm.css'
 
 const BookForm = () => {
@@ -24,17 +26,18 @@ const BookForm = () => {
   }
 
   const handleRandomBookViaAPI = async () => {
-    const res = await axios.get('http://localhost:4000/random-book')
-    console.log(res.data)
-    return dispatch(ADD_BOOK(createBook(res.data)))
+    // const res = await axios.get('http://localhost:4000/random-book')
+    // return dispatch(ADD_BOOK(createBook(res.data)))
+    dispatch(fetchBookApi())
   }
 
   const handleRandomBookFromGoogle = async () => {
-    const { title, year, author, description, image } =
-      await getGoogleBookViaApi()
-    return dispatch(
-      ADD_BOOK(createBook({ title, year, author, description, image }))
-    )
+    // const { title, year, author, description, image } =
+    //   await getGoogleBookViaApi()
+    // return dispatch(
+    //   ADD_BOOK(createBook({ title, year, author, description, image }))
+    // )
+    dispatch(fetchBookGoogle())
   }
 
   return (
