@@ -100,7 +100,8 @@ const BookList = () => {
                 <span>{`(${book.year})`}</span>
                 <span>
                   {' '}
-                  by <strong>{book.author}</strong>
+                  by{' '}
+                  <strong>{highlightMatched(book.author, authorFilter)}</strong>
                 </span>
               </div>
               <div className="book-actions">

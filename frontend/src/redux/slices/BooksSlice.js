@@ -1,21 +1,28 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import createBook from '../../utils/CreateBook.js'
+import { SET_ERROR } from './ErrorSlice.js'
 
 const initialState = []
 
-export const fetchBookApi = createAsyncThunk('BOOK/FETCH_API', async () => {
-  const res = await axios.get('http://localhost:4000/random-book')
-  return res.data
-})
+export const fetchBookApi = createAsyncThunk(
+  'BOOK/FETCH_API',
+  async (url, thunkAPI) => {
+    try {
+      const res = await axios.get(url)
+      return res.data
+    } catch (error) {
+      thunkAPI.dispatch(SET_ERROR(error.message))
+      throw error
+    }
+  }
+)
 
 export const fetchBookGoogle = createAsyncThunk(
   'BOOK/FETCH_GOOGLE',
-  async () => {
+  async (url, thunkAPI) => {
     try {
-      const res = await axios.get(
-        'https://www.googleapis.com/books/v1/volumes?q=4'
-      )
+      const res = await axios.get(url)
       const items = res.data.items
 
       if (!items || items.length === 0) {
@@ -36,14 +43,8 @@ export const fetchBookGoogle = createAsyncThunk(
 
       return { title, year, author, description, image }
     } catch (error) {
-      console.error('Error fetching book data:', error)
-      return {
-        title: 'Unknown',
-        year: 'Unknown',
-        author: 'Unknown',
-        description: 'Error fetching book',
-        image: '',
-      }
+      thunkAPI.dispatch(SET_ERROR(error.message))
+      throw error
     }
   }
 )
