@@ -1,0 +1,17 @@
+{
+  "appName": "Book Library App",
+  "bookFormLabel": "Add a New Book",
+  "bookFormTitle": "Title:",
+  "bookFormYear": "Year:",
+  "bookFormAuthor": "Author:",
+  "bookFormAddBookBtn": "Add Book",
+  "bookFormAddRandomApiBtn": "Add Random API",
+  "bookFormAddRandomGoogleBtn": "Add Random Google",
+  "bookListLabel": "My Book List",
+  "bookListNoBooksLabel": "No books available",
+  "bookListDeleteBookBtn": "Delete",
+  "filterByTitlePh": "filter by title...",
+  "filterByAuthor": "filter by author...",
+  "filterOnlyFavorite": "Only Favorite",
+  "filterClearFiltersBtn": "Clear Filters"
+}
