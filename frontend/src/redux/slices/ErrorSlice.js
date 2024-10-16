@@ -17,6 +17,6 @@ const errorSlice = createSlice({
 
 export const { SET_ERROR, CLEAR_ERROR } = errorSlice.actions
 
-export const selectError = (state) => state.ERROR
+export const selectError = (state) => state.error
 
 export default errorSlice.reducer

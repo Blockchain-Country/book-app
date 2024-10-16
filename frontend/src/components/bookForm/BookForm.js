@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import createBook from '../../utils/CreateBook.js'
+import { SET_ERROR } from '../../redux/slices/ErrorSlice.js'
+import './BookForm.css'
 import {
   ADD_BOOK,
   fetchBookApi,
   fetchBookGoogle,
 } from '../../redux/slices/BooksSlice.js'
-import './BookForm.css'
 
 const BookForm = () => {
   const { t } = useTranslation()
@@ -24,6 +25,10 @@ const BookForm = () => {
       setTitle('')
       setYear('')
       setAuthor('')
+    } else if (!title || !year || !author) {
+      dispatch(SET_ERROR('You should fill Title, Year and Author'))
+    } else {
+      dispatch(SET_ERROR('You should enter a correct Year format'))
     }
   }
 

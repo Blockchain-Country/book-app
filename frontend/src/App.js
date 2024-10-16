@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import BookForm from './components/bookForm/BookForm.js'
 import Filter from './components/filter/Filter.js'
 import BookList from './components/bookList/BookList.js'
+import Error from './components/error/Error.js'
 import './utils/i18n.js'
 import './App.css'
 
@@ -32,6 +33,7 @@ function App() {
           <BookList />
         </div>
       </main>
+      <Error />
     </div>
   )
 }
