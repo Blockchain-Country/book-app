@@ -33,18 +33,11 @@ const BookForm = () => {
   }
 
   const handleRandomBookViaAPI = async () => {
-    // const res = await axios.get('http://localhost:4000/random-book')
-    // return dispatch(ADD_BOOK(createBook(res.data)))
-    dispatch(fetchBookApi())
+    dispatch(fetchBookApi('http://localhost:4000/random-book'))
   }
 
   const handleRandomBookFromGoogle = async () => {
-    // const { title, year, author, description, image } =
-    //   await getGoogleBookViaApi()
-    // return dispatch(
-    //   ADD_BOOK(createBook({ title, year, author, description, image }))
-    // )
-    dispatch(fetchBookGoogle())
+    dispatch(fetchBookGoogle('https://www.googleapis.com/books/v1/volumes?q=4'))
   }
 
   return (
