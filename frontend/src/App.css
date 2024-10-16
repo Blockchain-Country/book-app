@@ -55,3 +55,30 @@
     align-self: unset;
   }
 }
+
+.language-selector {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.language-selector select:hover {
+  background-color: #dbe4f8;
+}
+
+.language-selector select {
+  background-color: #fff;
+  color: #0a1a2d;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.language-selector select:focus {
+  outline: none;
+  border-color: #0a1a2d;
+}

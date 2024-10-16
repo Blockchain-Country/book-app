@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
+import { useTranslation } from 'react-i18next'
 import { DELETE_BOOK, TOGGLE_FAVORITE } from '../../redux/slices/BooksSlice.js'
 import { selectBook } from '../../redux/slices/BooksSlice.js'
 import BookDescriptionModal from '../modals/BookDescriptionModal.js'
@@ -12,6 +13,8 @@ import {
 import './BookList.css'
 
 const BookList = () => {
+  const { t } = useTranslation()
+
   const dispatch = useDispatch()
 
   const books = useSelector(selectBook)
@@ -77,9 +80,9 @@ const BookList = () => {
 
   return (
     <div className="app-block book-list">
-      <h2>My Book List</h2>
+      <h2>{t('bookListLabel')}</h2>
       {!books.length ? (
-        <p>No books available</p>
+        <p>{t('bookListNoBooksLabel')}</p>
       ) : (
         <ul>
           {filteredBooks.map((book, i) => (
@@ -110,7 +113,7 @@ const BookList = () => {
                   )}
                 </span>
                 <button onClick={() => handleDeleteBook(book.id)}>
-                  Delete
+                  {t('bookListDeleteBookBtn')}
                 </button>
               </div>
             </li>

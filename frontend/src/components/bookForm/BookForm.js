@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import createBook from '../../utils/CreateBook.js'
 import {
   ADD_BOOK,
@@ -9,6 +10,7 @@ import {
 import './BookForm.css'
 
 const BookForm = () => {
+  const { t } = useTranslation()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [year, setYear] = useState('')
@@ -42,10 +44,10 @@ const BookForm = () => {
 
   return (
     <div className="app-block book-form">
-      <h2>Add a New Book</h2>
+      <h2>{t('bookFormLabel')}</h2>
       <form className="book-form" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="title">Title:</label>
+          <label htmlFor="title">{t('bookFormTitle')}</label>
           <input
             type="text"
             id="title"
@@ -54,7 +56,7 @@ const BookForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="year">Year:</label>
+          <label htmlFor="year">{t('bookFormYear')}</label>
           <input
             type="number"
             id="year"
@@ -63,7 +65,7 @@ const BookForm = () => {
           ></input>
         </div>
         <div>
-          <label htmlFor="author">Author: </label>
+          <label htmlFor="author">{t('bookFormAuthor')}</label>
           <input
             type="text"
             id="author"
@@ -71,12 +73,12 @@ const BookForm = () => {
             onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
-        <button type="submit">Add Book</button>
+        <button type="submit">{t('bookFormAddBookBtn')}</button>
         <button type="button" onClick={handleRandomBookViaAPI}>
-          Add Random API
+          {t('bookFormAddRandomApiBtn')}
         </button>
         <button type="button" onClick={handleRandomBookFromGoogle}>
-          Add Random Google
+          {t('bookFormAddRandomGoogleBtn')}
         </button>
       </form>
     </div>

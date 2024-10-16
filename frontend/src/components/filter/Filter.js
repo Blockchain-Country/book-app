@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import './Filter.css'
 import {
   SET_TITLE_FILTER,
@@ -11,6 +12,7 @@ import {
 } from '../../redux/slices/FiltersSlice.js'
 
 const Filter = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
@@ -38,7 +40,7 @@ const Filter = () => {
         <div className="filter-group">
           <input
             type="text"
-            placeholder="filter by title..."
+            placeholder={t('filterByTitlePh')}
             value={titleFilter}
             onChange={handleTitleFilter}
           ></input>
@@ -46,7 +48,7 @@ const Filter = () => {
         <div className="filter-group">
           <input
             type="text"
-            placeholder="filter by author..."
+            placeholder={t('filterByAuthor')}
             value={authorFilter}
             onChange={handleAuthorFilter}
           ></input>
@@ -58,10 +60,12 @@ const Filter = () => {
               checked={onlyFavoriteFilter}
               onChange={handleOnlyFavoriteFilter}
             />
-            Only Favorite
+            {t('filterOnlyFavorite')}
           </label>
         </div>
-        <button onClick={handleResetFilters}>Clear Filters</button>
+        <button onClick={handleResetFilters}>
+          {t('filterClearFiltersBtn')}
+        </button>
       </div>
     </div>
   )
