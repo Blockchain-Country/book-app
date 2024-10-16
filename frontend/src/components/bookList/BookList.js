@@ -18,7 +18,6 @@ const BookList = () => {
   const dispatch = useDispatch()
 
   const books = useSelector(selectBook)
-  console.log(books)
 
   const titleFilter = useSelector(selectTitleFilter)
   const authorFilter = useSelector(selectAuthorFilter)
