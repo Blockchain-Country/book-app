@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { FaSpinner } from 'react-icons/fa'
 import createBook from '../../utils/CreateBook.js'
 import { SET_ERROR } from '../../redux/slices/ErrorSlice.js'
 import './BookForm.css'
@@ -15,6 +16,7 @@ const BookForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [year, setYear] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
@@ -33,11 +35,23 @@ const BookForm = () => {
   }
 
   const handleRandomBookViaAPI = async () => {
-    dispatch(fetchBookApi('http://localhost:4000/random-book'))
+    try {
+      setIsLoading(true)
+      await dispatch(fetchBookApi('http://localhost:4000/random-book'))
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleRandomBookFromGoogle = async () => {
-    dispatch(fetchBookGoogle('https://www.googleapis.com/books/v1/volumes?q=4'))
+    try {
+      setIsLoading(true)
+      await dispatch(
+        fetchBookGoogle('https://www.googleapis.com/books/v1/volumes?q=4')
+      )
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -72,13 +86,22 @@ const BookForm = () => {
           />
         </div>
         <button type="submit">{t('bookFormAddBookBtn')}</button>
-        <button type="button" onClick={handleRandomBookViaAPI}>
+        <button
+          type="button"
+          onClick={handleRandomBookViaAPI}
+          disabled={isLoading}
+        >
           {t('bookFormAddRandomApiBtn')}
         </button>
-        <button type="button" onClick={handleRandomBookFromGoogle}>
+        <button
+          type="button"
+          onClick={handleRandomBookFromGoogle}
+          disabled={isLoading}
+        >
           {t('bookFormAddRandomGoogleBtn')}
         </button>
       </form>
+      <span>{isLoading && <FaSpinner className="spinner" />}</span>
     </div>
   )
 }
